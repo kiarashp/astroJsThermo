@@ -1,0 +1,130 @@
+---
+// src/components/core/Header.astro
+import { navLinks } from "@/data/navLinks";
+import DarkModeButton from "./DarkModeButton.astro";
+import { Factory, Menu } from "@lucide/astro";
+let activeMenu: string | null = null;
+const toggleMenu = (title: string) => {
+  activeMenu = activeMenu === title ? null : title;
+};
+---
+
+<header class="navbar bg-base-100 shadow-sm">
+  <div class="container mx-auto flex justify-between items-center">
+    <!-- Mobile Nav -->
+    <div class="lg:hidden">
+      <details class="dropdown dropdown-start">
+        <summary class="btn btn-ghost">
+          <Menu class="w-5 h-5" />
+        </summary>
+
+        <ul
+          class="menu dropdown-content mt-2 p-4 shadow-lg bg-base-100 rounded-box w-64 space-y-2"
+        >
+          {
+            navLinks.map((item) => (
+              <li>
+                {item.children ? (
+                  <details class="font-semibold">
+                    <summary class="">{item.label}</summary>
+                    <ul class="p-2 space-y-1">
+                      {item.children.map((group) => (
+                        <li>
+                          <details>
+                            <summary class="font-medium">{group.label}</summary>
+                            <ul class="p-2 space-y-1">
+                              {group.children?.map((link) => (
+                                <li>
+                                  <a class="font-normal" href={link.href}>
+                                    {link.label}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </details>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                ) : (
+                  <a href={item.href}>{item.label}</a>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+    </div>
+    <!-- Left: Logo -->
+    <a href="/" class="flex items-center gap-2 font-bold text-lg">
+      <Factory class="w-6 h-6" />
+      <span>Thermo Group</span>
+    </a>
+
+    <!-- Center: Nav -->
+    <nav class="hidden lg:flex">
+      <ul class="menu menu-horizontal px-1">
+        {
+          navLinks.map((item) =>
+            item.children ? (
+              <li>
+                <details class="dropdown dropdown-bottom dropdown-center">
+                  <summary
+                    id="productsBtn"
+                    class=" normal-case flex items-center gap-1"
+                  >
+                    {item.label}
+                  </summary>
+
+                  <ul
+                    id="productsMenu"
+                    class="dropdown-content bg-base-100 rounded-box shadow-lg p-6 mt-2 grid grid-cols-3 gap-6 w-[700px] z-50"
+                  >
+                    {item.children.map((group) => (
+                      <li>
+                        <h3 class="font-semibold mb-2 text-base-content/80">
+                          {group.label}
+                        </h3>
+                        <ul class="menu bg-base-100 rounded-box">
+                          {group.children?.map((link) => (
+                            <li>
+                              <a href={link.href}>{link.label}</a>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            ) : (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            )
+          )
+        }
+      </ul>
+    </nav>
+
+    <!-- Right: Dark Mode -->
+    <div class="flex items-center">
+      <DarkModeButton />
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("productsBtn")!;
+  const menu = document.getElementById("productsMenu")!;
+
+  // Close menu if click is outside the button or the menu
+  document.addEventListener("click", (e) => {
+    if (!menu.contains(e.target as Node) && !btn.contains(e.target as Node)) {
+      // Simulate click on the button if menu is open
+      if (!menu.classList.contains("hidden")) {
+        btn.click();
+      }
+    }
+  });
+</script>

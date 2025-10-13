@@ -1,0 +1,39 @@
+---
+// ThemeToggle.astro
+import { Sun,Moon } from "@lucide/astro";
+
+---
+
+<label class="swap swap-rotate btn btn-primary">
+  <!-- checked if its night -->
+  <input type="checkbox" class="isItNight" value="sunset" />
+  
+  <!-- sun icon -->
+  <Sun class="swap-off h-8 w-8" />
+  <!-- moon icon -->
+  <Moon class="swap-on h-8 w-8" />
+</label>
+
+<script>
+  // Load theme from localStorage on page load
+  const theme = localStorage.getItem("theme") || "autumn";
+  document.documentElement.setAttribute("data-theme", theme);
+
+  // Set checkbox state based on saved theme
+  const themeController = document.querySelector(
+    ".isItNight"
+  ) as HTMLInputElement;
+  if (themeController) {
+    themeController.checked = theme === "sunset";
+  }
+
+  // Listen for theme changes
+  document.addEventListener("change", (e) => {
+    const target = e.target as HTMLInputElement;
+    if (target.classList.contains("isItNight")) {
+      const newTheme = target.checked ? "sunset" : "autumn";
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+    }
+  });
+</script>
