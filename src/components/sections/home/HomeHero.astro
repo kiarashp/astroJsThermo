@@ -1,0 +1,51 @@
+---
+import { ArrowRight } from "@lucide/astro";
+import Image from "astro/components/Image.astro";
+import hero from "@/assets/home/hero.jpeg";
+---
+
+<section id="home" class="hero min-h-[600px] relative overflow-hidden">
+  <!-- Background Image -->
+  <div class="hero-overlay absolute inset-0">
+    <Image
+      src={hero}
+      alt="Industrial Heating Equipment"
+      class="w-full h-full object-cover opacity-40"
+    />
+  </div>
+
+  <!-- Content -->
+  <div
+    class="hero-content relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center md:text-left"
+  >
+    <div class="max-w-3xl">
+      <h1
+        class="text-4xl md:text-5xl lg:text-6xl font-bold text-base-content mb-6"
+      >
+        Manufacturing and Supplying Industrial Heating Components
+      </h1>
+
+      <p class="text-base-content/80 text-lg mb-8 max-w-2xl">
+        Thermo Group provides high-quality industrial heating tools and ceramic
+        components with years of experience in the field.
+      </p>
+
+      <div
+        class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+      >
+        <a href="/products" class="btn btn-primary btn-lg gap-2">
+          Explore Our Products
+          <ArrowRight size={20} />
+        </a>
+
+        <a href="/contact" class="btn btn-outline btn-lg"> Contact Us </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Gradient Fade -->
+  <div
+    class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-base-100 to-transparent z-10"
+  >
+  </div>
+</section>

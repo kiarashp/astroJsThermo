@@ -1,0 +1,64 @@
+---
+import { Zap, Car, Building2, Factory, Flame } from '@lucide/astro';
+
+const applications = [
+  {
+    icon: Zap,
+    title: "Electrical Industry",
+    description: "High-performance heating components for electrical applications"
+  },
+  {
+    icon: Car,
+    title: "Automotive",
+    description: "Precision ceramic and heating elements for automotive manufacturing"
+  },
+  {
+    icon: Building2,
+    title: "Construction",
+    description: "Durable insulation and heating solutions for construction projects"
+  },
+  {
+    icon: Factory,
+    title: "Manufacturing",
+    description: "Industrial-grade heating tools for diverse manufacturing needs"
+  },
+  {
+    icon: Flame,
+    title: "Heating Systems",
+    description: "Advanced heating elements and thermal management solutions"
+  }
+];
+---
+
+<section class="py-20 bg-base-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-base-content mb-4">
+        Supplying Tools and Components for a Wide Range of Industrial Applications
+      </h2>
+      <p class="text-base-content/70 text-lg max-w-2xl mx-auto">
+        Our products serve diverse industries with specialized heating solutions
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      {applications.map((app) => (
+        <div class="card bg-base-100 shadow-sm hover:shadow-xl transition-all duration-300 border border-base-300 hover:border-primary group">
+          <div class="card-body items-center text-center p-6">
+            <div class="avatar avatar-placeholder mb-4">
+              <div class="bg-primary dark:text-black  text-neutral-content rounded-lg w-16 group-hover:bg-primary group-hover:text-primary-content transition-colors">
+                <app.icon size={32} class="" />
+              </div>
+            </div>
+            <h3 class="card-title text-base-content text-base mb-2">
+              {app.title}
+            </h3>
+            <p class="text-base-content/70 text-sm">
+              {app.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

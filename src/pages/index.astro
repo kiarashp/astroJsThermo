@@ -1,7 +1,17 @@
 ---
-import Layout from "@/layouts/Layout.astro"
+import Layout from "@/layouts/Layout.astro";
+import HomeHero from "@/components/sections/home/HomeHero.astro";
+import HomeApplications from "@/components/sections/home/HomeApplications.astro";
+import HomeProductRange from "@/components/sections/home/HomeProductRange.astro";
+import HomeMoreInfo from "@/components/sections/home/HomeMoreInfo.astro";
+
 ---
 
 <Layout pageTitle="Home" description="Welcome to homepage">
-	<p>hello</p>
+  <main>
+    <HomeHero />
+    <HomeApplications />
+    <HomeProductRange />
+	<HomeMoreInfo/>
+  </main>
 </Layout>
