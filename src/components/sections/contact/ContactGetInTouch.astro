@@ -1,0 +1,68 @@
+---
+import { MapPin, Phone, Mail, Printer } from "@lucide/astro";
+import ContactForm from "@/components/sections/contact/ContactForm.astro";
+
+// Data-driven contact info array
+const contacts = [
+  {
+    title: "Address",
+    icon: MapPin,
+    lines: [
+      "Tehran, South Lalezar St., Melanourozi Alley, Khandan Passage, 1st Floor, Unit 1"
+    ]
+  },
+  {
+    title: "Phone",
+    icon: Phone,
+    lines: [
+      "+98 21 33930946 – 33995987",
+      "Mobile: +98 912 8162522"
+    ]
+  },
+  {
+    title: "Email",
+    icon: Mail,
+    lines: ["thermotechnology1@yahoo.com"]
+  },
+  {
+    title: "Fax",
+    icon: Printer,
+    lines: ["33930947"]
+  }
+];
+---
+
+<section class="py-20 bg-base-200 text-base-content">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold mb-4">Get in Touch</h2>
+      <p class="opacity-80 max-w-2xl mx-auto">
+        Contact us for inquiries about our products and services
+      </p>
+    </div>
+
+    <!-- Contact Cards -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      {contacts.map(({ title, icon: Icon, lines }) => (
+        <div
+          class="card bg-base-100 border border-base-300 hover:border-primary transition-colors"
+        >
+          <div class="card-body items-center text-center">
+            <div
+              class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4"
+            >
+              <Icon class="w-6 h-6 text-base-100" />
+            </div>
+            <h4 class="card-title">{title}</h4>
+            {lines.map(line => (
+              <p class="text-sm opacity-80">{line}</p>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <ContactForm />
+  </div>
+</section>

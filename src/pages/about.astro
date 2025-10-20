@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import AboutStory from "@/components/sections/about/AboutStory.astro";
+import AboutJourney from "@/components/sections/about/AboutJourney.astro";
+import AboutMission from "@/components/sections/about/AboutMission.astro";
+import PageTitle from "@/components/core/PageTitle.astro";
+---
+
+<Layout pageTitle="About" description="About Thermo Group">
+  <main>
+    <PageTitle
+      title="About Thermo Group"
+      subtitle="Leading manufacturer and supplier of industrial heating components, serving industries worldwide with premium quality products and exceptional service."
+    />
+    <AboutStory />
+    <AboutJourney />
+    <AboutMission />
+  </main>
+</Layout>

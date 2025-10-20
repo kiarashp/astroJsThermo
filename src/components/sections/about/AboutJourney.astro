@@ -1,0 +1,41 @@
+---
+const journey = [
+  { year: "1990s", text: "Company founded in Tehran" },
+  { year: "2000s", text: "Expanded product line to include silicon carbide components" },
+  { year: "2010s", text: "Achieved ISO quality certifications" },
+  { year: "2020s", text: "Serving major industries across multiple sectors" },
+];
+---
+
+<section class="py-20 bg-base-300 text-base-content">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <h2 class="text-base-content font-medium text-2xl mb-4">Our Journey</h2>
+      <p class="text-base-content/70 max-w-2xl mx-auto">Decades of growth and innovation</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="max-w-3xl mx-auto space-y-8">
+      {journey.map(item => (
+        <div class="flex gap-6 items-center">
+          <!-- Year circle -->
+          <div class="flex-shrink-0">
+            <div class="w-24 h-24 bg-primary rounded-full flex items-center justify-center">
+              <span class="text-primary-content  font-medium ">{item.year}</span>
+            </div>
+          </div>
+
+          <!-- Description card -->
+          <div class="flex-1">
+            <div class="bg-base-200 rounded-lg p-6 border border-base-300">
+              <p class="text-base-content/70">{item.text}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

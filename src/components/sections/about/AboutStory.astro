@@ -1,0 +1,45 @@
+---
+import { CircleCheck } from "@lucide/astro";
+
+// Data for features / check items
+const features = [
+  "Premium 99% Alumina ceramics",
+  "ISO-certified manufacturing processes",
+  "Comprehensive product testing",
+  "Expert technical support",
+  "Custom solutions available",
+  "Competitive pricing"
+];
+---
+
+<section class="py-20 bg-base-100 text-base-content">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Text content -->
+      <div>
+        <h2 class="text-base-content font-medium text-2xl mb-6">Our Story</h2>
+        <p class="text-base-content/70 mb-4">
+          Thermo Group has been at the forefront of industrial heating technology for decades. We specialize in the production and supply of high-quality heating elements, ceramic components, and thermal insulation materials.
+        </p>
+        <p class="text-base-content/70 mb-4">
+          Our commitment to excellence has made us a trusted partner for industries ranging from automotive to manufacturing, electrical systems to construction.
+        </p>
+        <p class="text-base-content/70">
+          With years of experience and a dedication to innovation, we continue to provide solutions that meet the evolving needs of modern industry.
+        </p>
+      </div>
+
+      <!-- Features / checks -->
+      <div class="space-y-4">
+        {features.map(feature => (
+          <div class="flex items-start gap-3">
+            <CircleCheck class="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+            <span class="text-base-content/70">{feature}</span>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
