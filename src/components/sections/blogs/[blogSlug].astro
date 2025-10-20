@@ -1,0 +1,11 @@
+---
+import type { GetStaticPaths } from "astro";
+
+ export const getStaticPaths = (() => {
+    
+    return [];
+}) satisfies GetStaticPaths;
+
+const {blogSlug} = Astro.params
+const  {blog} = Astro.props
+---

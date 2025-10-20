@@ -1,0 +1,20 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageTitle from "@/components/core/PageTitle.astro";
+import ProductsCards from "@/components/sections/products/ProductsCards.astro";
+import { products } from "@/data/products";
+
+---
+
+<Layout
+  pageTitle="Products"
+  description="You can see all the products from Thermo Group in here"
+>
+  <main>
+    <PageTitle
+      title="Our Products"
+      subtitle="Comprehensive range of industrial heating components and materials engineered for performance, durability, and reliability."
+    />
+    <ProductsCards products={products}/>
+  </main>
+</Layout>

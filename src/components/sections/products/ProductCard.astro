@@ -1,0 +1,30 @@
+---
+import type { Product } from "@/types/product";
+
+interface Props {
+  product: Product;
+}
+const { product } = Astro.props;
+---
+
+<div
+  class="card bg-card text-card-foreground flex flex-col gap-6 rounded-xl border overflow-hidden hover:shadow-lg transition-shadow border-base-200"
+>
+  <div class="relative h-48 overflow-hidden">
+    <img
+      src={product.image}
+      alt={product.title}
+      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+    />
+    <div class="absolute top-4 right-4">
+      <span class="badge badge-primary text-primary-content px-3 py-1 text-sm">
+        {product.category}
+      </span>
+    </div>
+  </div>
+
+  <div class="px-6 pt-6 pb-4 flex flex-col gap-2">
+    <h4 class="leading-none text-lg font-semibold">{product.title}</h4>
+    <p class="text-muted-foreground text-sm">{product.description}</p>
+  </div>
+</div>

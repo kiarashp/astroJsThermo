@@ -1,0 +1,46 @@
+---
+import type { Blog } from "@/types/blog";
+import { Calendar, Clock, ArrowRight } from "@lucide/astro";
+
+interface Props {
+  blog: Blog;
+}
+const { blog } = Astro.props as Props;
+---
+
+<!-- Card -->
+<div
+  class="card bg-base-100 text-base-content shadow hover:shadow-lg border border-base-200 rounded-xl overflow-hidden transition-shadow"
+>
+  <figure class="relative h-48 overflow-hidden">
+    <img
+      src={blog.image}
+      alt={blog.title}
+      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+    />
+    <span class="badge absolute top-4 left-4 bg-primary text-primary-content">
+      {blog.category}
+    </span>
+  </figure>
+
+  <div class="card-body gap-4 p-6">
+    <div class="flex items-center gap-4 text-sm text-base-content/70 mb-2">
+      <span class="flex items-center gap-1">
+        <Calendar class="w-4 h-4" />
+        {blog.date}
+      </span>
+      <span class="flex items-center gap-1">
+        <Clock class="w-4 h-4" />
+        {blog.readTime}
+      </span>
+    </div>
+
+    <h4 class="text-lg font-semibold line-clamp-2">{blog.title}</h4>
+    <p class="text-base-content/60 line-clamp-3">{blog.excerpt}</p>
+
+    <button class="btn btn-outline btn-sm text-primary hover:text-primary-content hover:bg-primary mt-2 flex items-center gap-2">
+      Read More
+      <ArrowRight class="w-4 h-4" />
+    </button>
+  </div>
+</div>

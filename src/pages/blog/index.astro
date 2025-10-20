@@ -2,6 +2,8 @@
 import Layout from "@/layouts/Layout.astro";
 import PageTitle from "@/components/core/PageTitle.astro";
 import BlogsFilter from "@/components/sections/blogs/BlogsFilter.astro";
+import BlogCards from "@/components/sections/blogs/BlogCards.astro";
+import { blogs } from "@/data/blogs";
 ---
 
 <Layout
@@ -14,5 +16,6 @@ import BlogsFilter from "@/components/sections/blogs/BlogsFilter.astro";
       subtitle="Expert knowledge and industry insights about industrial heating components, materials, and best practices."
     />
     <BlogsFilter />
+    <BlogCards blogs={blogs} />
   </main>
 </Layout>
