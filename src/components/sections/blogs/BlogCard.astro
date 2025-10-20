@@ -1,9 +1,10 @@
 ---
-import type { Blog } from "@/types/blog";
+import type { CollectionEntry } from "astro:content";
 import { Calendar, Clock, ArrowRight } from "@lucide/astro";
+import Image from "astro/components/Image.astro";
 
 interface Props {
-  blog: Blog;
+  blog: CollectionEntry<"blogs">;
 }
 const { blog } = Astro.props as Props;
 ---
@@ -13,13 +14,13 @@ const { blog } = Astro.props as Props;
   class="card bg-base-100 text-base-content shadow hover:shadow-lg border border-base-200 rounded-xl overflow-hidden transition-shadow"
 >
   <figure class="relative h-48 overflow-hidden">
-    <img
-      src={blog.image}
-      alt={blog.title}
+    <Image
+      src={blog.data.thumbnail}
+      alt={blog.data.title}
       class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
     />
     <span class="badge absolute top-4 left-4 bg-primary text-primary-content">
-      {blog.category}
+      {blog.data.category}
     </span>
   </figure>
 
@@ -27,20 +28,23 @@ const { blog } = Astro.props as Props;
     <div class="flex items-center gap-4 text-sm text-base-content/70 mb-2">
       <span class="flex items-center gap-1">
         <Calendar class="w-4 h-4" />
-        {blog.date}
+        {blog.data.date}
       </span>
       <span class="flex items-center gap-1">
         <Clock class="w-4 h-4" />
-        {blog.readTime}
+        {blog.data.readTime}
       </span>
     </div>
 
-    <h4 class="text-lg font-semibold line-clamp-2">{blog.title}</h4>
-    <p class="text-base-content/60 line-clamp-3">{blog.excerpt}</p>
+    <h4 class="text-lg font-semibold line-clamp-2">{blog.data.title}</h4>
+    <p class="text-base-content/60 line-clamp-3">{blog.data.excerpt}</p>
 
-    <button class="btn btn-outline btn-sm text-primary hover:text-primary-content hover:bg-primary mt-2 flex items-center gap-2">
-      Read More
+    <a
+      class="btn btn-outline btn-sm text-primary hover:text-primary-content hover:bg-primary mt-2 flex items-center gap-2"
+      href={`/blog/${blog.slug}`}
+    >
+      Read More {blog.slug}
       <ArrowRight class="w-4 h-4" />
-    </button>
+    </a>
   </div>
 </div>

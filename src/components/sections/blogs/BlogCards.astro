@@ -1,8 +1,8 @@
 ---
 import BlogCard from "./BlogCard.astro";
-import type { Blog } from "@/types/blog";
+import type { CollectionEntry } from "astro:content";
 interface Props {
-  blogs: Blog[];
+  blogs: CollectionEntry<"blogs">[];
 }
 const { blogs } = Astro.props;
 ---

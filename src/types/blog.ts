@@ -7,5 +7,5 @@ export interface Blog {
   image: string;
   date: string;
   readTime: string;
-  category: string;
+  category: string; 
 }

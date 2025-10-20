@@ -1,0 +1,52 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+export const getStaticPaths = (async () => {
+  const blogs = await getCollection("blogs");
+
+  return blogs.map((entry) => ({
+    params: { blogSlug: entry.slug },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+import { Calendar, Clock, ArrowRight } from "@lucide/astro";
+import { Image } from "astro:assets";
+const blog = entry.data;
+---
+
+<div
+  class="card bg-card text-card-foreground shadow hover:shadow-lg border border-base-200 rounded-xl overflow-hidden transition-shadow flex flex-col"
+>
+  <figure class="relative h-48 overflow-hidden">
+    <Image
+      src={blog.thumbnail}
+      alt={blog.title}
+      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+    />
+
+    <span
+      class="badge badge-primary absolute top-4 left-4 text-primary-content"
+    >
+      {blog.category}
+    </span>
+  </figure>
+  <div class="card-body gap-4 p-6 flex flex-col flex-1">
+    <div class="flex items-center gap-4 text-sm text-base-content/70 mb-2">
+      <span class="flex items-center gap-1"
+        ><Calendar class="w-4 h-4" />{blog.date}</span
+      >
+      <span class="flex items-center gap-1"
+        ><Clock class="w-4 h-4" />{blog.readTime}</span
+      >
+    </div>
+    <h4 class="text-lg font-semibold line-clamp-2">{blog.title}</h4>
+    <p class="text-base-content/60 line-clamp-3">{blog.excerpt}</p>
+    <button
+      class="btn btn-outline btn-sm mt-auto text-primary flex items-center gap-2 hover:text-primary-content"
+    >
+      Read More <ArrowRight class="w-4 h-4" />
+    </button>
+  </div>
+</div>

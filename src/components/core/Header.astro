@@ -1,12 +1,14 @@
 ---
 // src/components/core/Header.astro
-import { navLinks } from "@/data/navLinks";
+import type { NavLink } from "@/data/navLinks";
 import DarkModeButton from "./DarkModeButton.astro";
 import { Factory, Menu } from "@lucide/astro";
-let activeMenu: string | null = null;
-const toggleMenu = (title: string) => {
-  activeMenu = activeMenu === title ? null : title;
-};
+
+interface Props{
+  menuLinks: NavLink[];
+  activeMenu: string | null;
+}
+const {menuLinks,activeMenu= null} = Astro.props
 ---
 
 <header class="navbar bg-base-300 shadow-sm">
@@ -22,7 +24,7 @@ const toggleMenu = (title: string) => {
           class="menu dropdown-content mt-2 p-4 shadow-lg bg-base-100 rounded-box w-64 space-y-2"
         >
           {
-            navLinks.map((item) => (
+            menuLinks.map((item) => (
               <li>
                 {item.children ? (
                   <details class="font-semibold">
@@ -63,9 +65,9 @@ const toggleMenu = (title: string) => {
 
     <!-- Center: Nav -->
     <nav class="hidden lg:flex">
-      <ul class="menu menu-horizontal px-1">
+      <ul class="menu menu-horizontal px-1 space-x-2">
         {
-          navLinks.map((item) =>
+          menuLinks.map((item) =>
             item.children ? (
               <li>
                 <details
@@ -103,7 +105,7 @@ const toggleMenu = (title: string) => {
               </li>
             ) : (
               <li>
-                <a href={item.href}>{item.label}</a>
+                <a class={item.href === activeMenu ? "menu-active" : ""}  href={item.href}>{item.label}</a>
               </li>
             )
           )
