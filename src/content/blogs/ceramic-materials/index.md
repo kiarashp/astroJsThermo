@@ -13,4 +13,7 @@ draft: false
 
 Advanced ceramics play a vital role in modern industrial processes. Learn about different ceramic materials and their specific applications.
 
-Full content about ceramic materials...
+![Ceramic Tiles](./blog2.jpeg)
+
+
+Full content about ceramic materials...234

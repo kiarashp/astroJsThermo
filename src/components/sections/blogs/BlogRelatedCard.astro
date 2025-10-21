@@ -6,28 +6,37 @@ interface Props {
 const { blogs } = Astro.props;
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-  {
-    blogs.map((eachBlog) => {
-      return (
-        <div class="card bg-base-200 hover:bg-base-300 transition-colors">
-          <div class="card-body">
-            <div class="badge badge-secondary badge-sm">
-              {eachBlog.data.category}
+{
+  blogs.length > 0 ? (
+    <div class="mt-16 mb-16">
+      <h2 class="text-3xl font-bold text-base-content mb-8">
+        Related Articles
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {blogs.map((eachBlog) => {
+          return (
+            <div class="card bg-base-200 hover:bg-base-300 transition-colors">
+              <div class="card-body">
+                <div class="badge badge-secondary badge-sm">
+                  {eachBlog.data.category}
+                </div>
+                <h3 class="card-title text-lg mt-2">{eachBlog.data.title}</h3>
+                <p class="text-base-content/70 text-sm">
+                  {eachBlog.data.excerpt}
+                </p>
+                <div class="card-actions justify-end mt-4">
+                  <a
+                    href={`/blog/${eachBlog.slug}`}
+                    class="btn btn-primary btn-sm"
+                  >
+                    Read More
+                  </a>
+                </div>
+              </div>
             </div>
-            <h3 class="card-title text-lg mt-2">{eachBlog.data.title}</h3>
-            <p class="text-base-content/70 text-sm">{eachBlog.data.excerpt}</p>
-            <div class="card-actions justify-end mt-4">
-              <a
-                href={`/blogs/${eachBlog.slug}`}
-                class="btn btn-primary btn-sm"
-              >
-                Read More
-              </a>
-            </div>
-          </div>
-        </div>
-      );
-    })
-  }
-</div>
+          );
+        })}
+      </div>
+    </div>
+  ) : null
+}

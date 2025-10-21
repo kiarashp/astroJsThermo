@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { formattedDate } from "@/utils/helpers";
 import { Calendar, Clock, ArrowRight } from "@lucide/astro";
 import Image from "astro/components/Image.astro";
 
@@ -28,7 +29,7 @@ const { blog } = Astro.props as Props;
     <div class="flex items-center gap-4 text-sm text-base-content/70 mb-2">
       <span class="flex items-center gap-1">
         <Calendar class="w-4 h-4" />
-        {blog.data.date}
+        {formattedDate(blog.data.pubDate)}
       </span>
       <span class="flex items-center gap-1">
         <Clock class="w-4 h-4" />
@@ -43,7 +44,7 @@ const { blog } = Astro.props as Props;
       class="btn btn-outline btn-sm text-primary hover:text-primary-content hover:bg-primary mt-2 flex items-center gap-2"
       href={`/blog/${blog.slug}`}
     >
-      Read More {blog.slug}
+      Read More
       <ArrowRight class="w-4 h-4" />
     </a>
   </div>

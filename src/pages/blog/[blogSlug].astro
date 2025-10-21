@@ -2,13 +2,10 @@
 import type { GetStaticPaths } from "astro";
 import { Calendar, Clock, Tag, ArrowLeft, Share2 } from "@lucide/astro";
 import Layout from "@/layouts/Layout.astro";
-import { getPublishedBlogs } from "@/utils/blog";
+import { getPublishedBlogs, getRelatedBlogs } from "@/utils/blog";
 import { Image } from "astro:assets";
 import BlogRelatedCard from "@/components/sections/blogs/BlogRelatedCard.astro";
 import { formattedDate } from "@/utils/helpers";
-
-// get the blogs
-const blogs = await getPublishedBlogs();
 
 // Build static paths
 export const getStaticPaths = (async () => {
@@ -23,6 +20,10 @@ export const getStaticPaths = (async () => {
 // Build astro props
 const { entry } = Astro.props;
 const blog = entry.data;
+const { Content } = await entry.render();
+
+// get related blogs
+const relatedBlogs = await getRelatedBlogs(entry.slug, blog.category);
 ---
 
 <Layout
@@ -34,10 +35,10 @@ const blog = entry.data;
   pubDate={blog.pubDate}
 >
   <article
-    class="min-h-screen bg-base-100 prose prose-lg max-w-none dark:prose-invert"
+    class="min-h-screen bg-base-100  max-w-none "
   >
     <!-- Hero Section -->
-    <div class="relative h-[60vh] overflow-hidden bg-base-300">
+    <div class="relative h-[40vh] overflow-hidden bg-base-300">
       <Image
         src={blog.thumbnail}
         alt={blog.title}
@@ -52,6 +53,7 @@ const blog = entry.data;
 
     <!-- Content Container -->
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 relative z-10">
+
       <!-- Back Button -->
       <a href="/blog" class="btn btn-ghost btn-sm gap-2 mb-6">
         <ArrowLeft class="w-4 h-4" />
@@ -59,7 +61,7 @@ const blog = entry.data;
       </a>
 
       <!-- Article Card -->
-      <div class="card bg-base-100 shadow-2xl">
+      <div class="card bg-base-100 shadow-2xl mb-10">
         <div class="card-body p-8 lg:p-12">
           <!-- Category Badge -->
           <div class="flex items-center gap-2 mb-4">
@@ -99,15 +101,19 @@ const blog = entry.data;
               <Tag class="w-4 h-4" />
               <span class="text-sm">{blog.author}</span>
             </div>
+
             <!-- read time -->
             <div class="flex items-center gap-2">
               <Clock class="w-4 h-4" />
               <span class="text-sm">{blog.readTime}</span>
             </div>
-            <button class="btn btn-ghost btn-sm gap-2 ml-auto">
+
+            <!--share  -->
+            <!-- <button class="btn btn-ghost btn-sm gap-2 ml-auto">
               <Share2 class="w-4 h-4" />
               Share
-            </button>
+            </button> -->
+
           </div>
 
           <!-- Excerpt -->
@@ -118,29 +124,16 @@ const blog = entry.data;
           </div>
 
           <!-- Article Content -->
-          <div class="prose prose-lg max-w-none">
-            <div set:html={blog.content} />
+          <div class="prose prose-lg max-w-none dark:prose-invert">
+            <Content />
           </div>
 
-          <!-- Tags Section -->
-          <div class="divider"></div>
-          <div class="flex flex-wrap gap-2 mt-8">
-            <span class="text-sm font-semibold text-base-content/70">Tags:</span
-            >
-            <div class="badge badge-outline">Web Development</div>
-            <div class="badge badge-outline">Tutorial</div>
-            <div class="badge badge-outline">Design</div>
-          </div>
         </div>
       </div>
 
       <!-- Related Articles Section -->
-      <div class="mt-16 mb-16">
-        <h2 class="text-3xl font-bold text-base-content mb-8">
-          Related Articles
-        </h2>
-        <BlogRelatedCard blogs={blogs} />
-      </div>
+      <BlogRelatedCard blogs={relatedBlogs} />
     </div>
   </article>
 </Layout>
+

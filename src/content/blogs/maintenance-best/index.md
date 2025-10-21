@@ -8,7 +8,7 @@ thumbnail: ./blog2.jpeg
 readTime: "5 min read"
 pubDate: 2024-02-12
 updatedDate: 2024-04-12
-category: "Maintenance"
+category: "Materials"
 draft: false
 ---
 
