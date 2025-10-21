@@ -1,8 +1,18 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
+import { Calendar, Clock, Tag, ArrowLeft, Share2 } from "@lucide/astro";
+import Layout from "@/layouts/Layout.astro";
+import { getPublishedBlogs } from "@/utils/blog";
+import { Image } from "astro:assets";
+import BlogRelatedCard from "@/components/sections/blogs/BlogRelatedCard.astro";
+import { formattedDate } from "@/utils/helpers";
+
+// get the blogs
+const blogs = await getPublishedBlogs();
+
+// Build static paths
 export const getStaticPaths = (async () => {
-  const blogs = await getCollection("blogs");
+  const blogs = await getPublishedBlogs();
 
   return blogs.map((entry) => ({
     params: { blogSlug: entry.slug },
@@ -10,43 +20,127 @@ export const getStaticPaths = (async () => {
   }));
 }) satisfies GetStaticPaths;
 
+// Build astro props
 const { entry } = Astro.props;
-import { Calendar, Clock, ArrowRight } from "@lucide/astro";
-import { Image } from "astro:assets";
 const blog = entry.data;
 ---
 
-<div
-  class="card bg-card text-card-foreground shadow hover:shadow-lg border border-base-200 rounded-xl overflow-hidden transition-shadow flex flex-col"
+<Layout
+  pageTitle={blog.title}
+  description={blog.description}
+  canonicalURL={blog.canonicalUrl}
+  image={blog.thumbnail.src}
+  ogType="article"
+  pubDate={blog.pubDate}
 >
-  <figure class="relative h-48 overflow-hidden">
-    <Image
-      src={blog.thumbnail}
-      alt={blog.title}
-      class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-    />
+  <article
+    class="min-h-screen bg-base-100 prose prose-lg max-w-none dark:prose-invert"
+  >
+    <!-- Hero Section -->
+    <div class="relative h-[60vh] overflow-hidden bg-base-300">
+      <Image
+        src={blog.thumbnail}
+        alt={blog.title}
+        class="w-full h-full object-cover"
+      />
 
-    <span
-      class="badge badge-primary absolute top-4 left-4 text-primary-content"
-    >
-      {blog.category}
-    </span>
-  </figure>
-  <div class="card-body gap-4 p-6 flex flex-col flex-1">
-    <div class="flex items-center gap-4 text-sm text-base-content/70 mb-2">
-      <span class="flex items-center gap-1"
-        ><Calendar class="w-4 h-4" />{blog.date}</span
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-base-100 via-base-100/50 to-transparent"
       >
-      <span class="flex items-center gap-1"
-        ><Clock class="w-4 h-4" />{blog.readTime}</span
-      >
+      </div>
     </div>
-    <h4 class="text-lg font-semibold line-clamp-2">{blog.title}</h4>
-    <p class="text-base-content/60 line-clamp-3">{blog.excerpt}</p>
-    <button
-      class="btn btn-outline btn-sm mt-auto text-primary flex items-center gap-2 hover:text-primary-content"
-    >
-      Read More <ArrowRight class="w-4 h-4" />
-    </button>
-  </div>
-</div>
+
+    <!-- Content Container -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 relative z-10">
+      <!-- Back Button -->
+      <a href="/blog" class="btn btn-ghost btn-sm gap-2 mb-6">
+        <ArrowLeft class="w-4 h-4" />
+        Back to Blogs
+      </a>
+
+      <!-- Article Card -->
+      <div class="card bg-base-100 shadow-2xl">
+        <div class="card-body p-8 lg:p-12">
+          <!-- Category Badge -->
+          <div class="flex items-center gap-2 mb-4">
+            <span class="badge badge-primary badge-lg gap-2">
+              <Tag class="w-3 h-3" />
+              {blog.category}
+            </span>
+          </div>
+
+          <!-- Title -->
+          <h1 class="text-4xl lg:text-5xl font-bold text-base-content mb-6">
+            {blog.title}
+          </h1>
+
+          <!-- Meta Information -->
+          <div
+            class="flex flex-wrap items-center gap-6 text-base-content/70 mb-8 pb-8 border-b border-base-300"
+          >
+            <!-- publish date -->
+            <div class="flex items-center gap-2">
+              <Calendar class="w-4 h-4" />
+              <span class="text-sm">{formattedDate(blog.pubDate)}</span>
+            </div>
+            <!-- update date -->
+            {
+              blog.updatedDate && (
+                <div class="flex items-center gap-2">
+                  <Clock class="w-4 h-4" />
+                  <span class="text-sm">
+                    Updated: {blog.updatedDate.toDateString()}
+                  </span>
+                </div>
+              )
+            }
+            <!-- author -->
+            <div class="flex items-center gap-2">
+              <Tag class="w-4 h-4" />
+              <span class="text-sm">{blog.author}</span>
+            </div>
+            <!-- read time -->
+            <div class="flex items-center gap-2">
+              <Clock class="w-4 h-4" />
+              <span class="text-sm">{blog.readTime}</span>
+            </div>
+            <button class="btn btn-ghost btn-sm gap-2 ml-auto">
+              <Share2 class="w-4 h-4" />
+              Share
+            </button>
+          </div>
+
+          <!-- Excerpt -->
+          <div class="alert alert-info mb-8">
+            <div>
+              <p class="text-lg font-medium">{blog.excerpt}</p>
+            </div>
+          </div>
+
+          <!-- Article Content -->
+          <div class="prose prose-lg max-w-none">
+            <div set:html={blog.content} />
+          </div>
+
+          <!-- Tags Section -->
+          <div class="divider"></div>
+          <div class="flex flex-wrap gap-2 mt-8">
+            <span class="text-sm font-semibold text-base-content/70">Tags:</span
+            >
+            <div class="badge badge-outline">Web Development</div>
+            <div class="badge badge-outline">Tutorial</div>
+            <div class="badge badge-outline">Design</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Articles Section -->
+      <div class="mt-16 mb-16">
+        <h2 class="text-3xl font-bold text-base-content mb-8">
+          Related Articles
+        </h2>
+        <BlogRelatedCard blogs={blogs} />
+      </div>
+    </div>
+  </article>
+</Layout>

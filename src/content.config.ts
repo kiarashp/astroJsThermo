@@ -7,12 +7,16 @@ const blogs = defineCollection({
       id: z.number(),
       title: z.string(),
       excerpt: z.string(),
+      description: z.string().max(160),
       content: z.string(),
       thumbnail: image(),
-      date: z.string(),
       readTime: z.string(),
       pubDate: z.date(),
+      updatedDate: z.date().optional(),
       category: z.string(),
+      author: z.string().default("The Thermo Team"),
+      draft: z.boolean().default(false),
+      canonicalUrl: z.string().url().optional(),
     }),
 });
 const products = defineCollection({
@@ -23,15 +27,7 @@ const products = defineCollection({
       title: z.string(),
       excerpt: z.string(),
       content: z.string(),
-      thumbnail: image()
-    //   .refine(
-    //     (img) =>
-    //       img.format === "jpg" || img.format === "jpeg" || img.format === "png",
-    //     {
-    //       message: "Thumbnail must be JPG, JPEG, or PNG image.",
-    //     }
-    //   )
-      ,
+      thumbnail: image(),
       date: z.string(),
       category: z.string(),
     }),

@@ -3,9 +3,9 @@ import Layout from "@/layouts/Layout.astro";
 import PageTitle from "@/components/core/PageTitle.astro";
 import BlogsFilter from "@/components/sections/blogs/BlogsFilter.astro";
 import BlogCards from "@/components/sections/blogs/BlogCards.astro";
-import { getCollection } from "astro:content";
+import { getPublishedBlogs } from "@/utils/blog";
 
-const blogs = await getCollection('blogs')
+const blogs = await getPublishedBlogs()
 ---
 
 <Layout

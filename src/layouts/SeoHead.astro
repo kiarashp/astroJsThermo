@@ -1,0 +1,79 @@
+---
+interface Props {
+  pageTitle: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  canonicalURL?: string;
+  noindex?: boolean;
+  ogType?: "website" | "article" | "profile";
+  lang?: string;
+  author?: string;
+  pubDate?: Date;
+  updated?: Date;
+}
+
+const {
+  pageTitle,
+  description,
+  image = "/og-image/defualt-fallback-og.jpg",
+  imageAlt = "",
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  noindex = false,
+  ogType = "website",
+  lang = "en",
+  author = "",
+  pubDate,
+  updated,
+} = Astro.props;
+
+const siteName = "The Thermo";
+const fullTitle =
+  pageTitle === siteName ? pageTitle : `${pageTitle} | ${siteName}`;
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{fullTitle}</title>
+  <meta name="title" content={fullTitle} />
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={ogType} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(image, Astro.site).href} />
+  <meta property="og:image:alt" content={imageAlt} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:site_name" content={siteName} />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={new URL(image, Astro.site).href} />
+  <meta name="twitter:image:alt" content={imageAlt} />
+
+  <link rel="icon" type="image/png" href="/favicon/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+
+  {ogType === "article" && pubDate && (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: pageTitle,
+      description,
+      image: new URL(image, Astro.site).href,
+      author: { "@type": "Person", name: author },
+      publisher: { "@type": "Organization", name: siteName },
+      datePublished: pubDate,
+      dateModified: updated || pubDate,
+      url: canonicalURL,
+    })} />
+  )}
+</head>
