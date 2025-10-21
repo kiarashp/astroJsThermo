@@ -66,6 +66,7 @@ const {menuLinks,activeMenu= null} = Astro.props
     <!-- Center: Nav -->
     <nav class="hidden lg:flex ">
       <ul class="menu menu-horizontal px-1 space-x-2">
+        
         {
           menuLinks.map((item) =>
             item.children ? (
@@ -100,6 +101,7 @@ const {menuLinks,activeMenu= null} = Astro.props
                         </ul>
                       </li>
                     ))}
+                    <li class="col-span-3 btn btn-primary">All Products</li>
                   </ul>
                 </details>
               </li>
