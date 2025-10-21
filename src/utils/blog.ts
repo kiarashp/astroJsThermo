@@ -1,4 +1,3 @@
-// src/utils/blogs.ts
 import { getCollection } from "astro:content";
 
 export async function fetchBlogs() {

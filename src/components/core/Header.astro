@@ -11,8 +11,8 @@ interface Props{
 const {menuLinks,activeMenu= null} = Astro.props
 ---
 
-<header class="navbar bg-base-300 shadow-sm">
-  <div class="container mx-auto flex justify-between items-center">
+<header class=" navbar bg-base-300 shadow-sm">
+  <div class="max-w-7xl w-full  mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8">
     <!-- Mobile Nav -->
     <div class="lg:hidden">
       <details class="dropdown dropdown-start">
@@ -64,7 +64,7 @@ const {menuLinks,activeMenu= null} = Astro.props
     </a>
 
     <!-- Center: Nav -->
-    <nav class="hidden lg:flex">
+    <nav class="hidden lg:flex ">
       <ul class="menu menu-horizontal px-1 space-x-2">
         {
           menuLinks.map((item) =>

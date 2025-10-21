@@ -2,7 +2,9 @@
 import Layout from "@/layouts/Layout.astro";
 import PageTitle from "@/components/core/PageTitle.astro";
 import ProductsCards from "@/components/sections/products/ProductsCards.astro";
-import { products } from "@/data/products";
+import { getPublishedProducts } from "@/utils/product";
+
+const products = await getPublishedProducts()
 
 ---
 
