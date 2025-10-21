@@ -6,7 +6,7 @@ excerpt: "Molybdenum heating elements offer superior performance in extreme high
 thumbnail: ./blog3.jpeg
 readTime: "6 min read"
 pubDate: 2024-02-28
-category: "Heating Elements"
+category: "Materials"
 draft: false
 ---
 

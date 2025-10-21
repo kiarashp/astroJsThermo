@@ -5,6 +5,8 @@ interface Props {
   image?: string;
   imageAlt?: string;
   canonicalURL?: string;
+  prevURL?: string | null;
+  nextURL?: string | null;
   noindex?: boolean;
   ogType?: "website" | "article" | "profile";
   lang?: string;
@@ -19,6 +21,8 @@ const {
   image = "/og-image/defualt-fallback-og.jpg",
   imageAlt = "",
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+  prevURL,
+  nextURL,
   noindex = false,
   ogType = "website",
   lang = "en",
@@ -62,18 +66,23 @@ const fullTitle =
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="sitemap" href="/sitemap-index.xml" />
 
-  {ogType === "article" && pubDate && (
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: pageTitle,
-      description,
-      image: new URL(image, Astro.site).href,
-      author: { "@type": "Person", name: author },
-      publisher: { "@type": "Organization", name: siteName },
-      datePublished: pubDate,
-      dateModified: updated || pubDate,
-      url: canonicalURL,
-    })} />
-  )}
+  {
+    ogType === "article" && pubDate && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: pageTitle,
+          description,
+          image: new URL(image, Astro.site).href,
+          author: { "@type": "Person", name: author },
+          publisher: { "@type": "Organization", name: siteName },
+          datePublished: pubDate,
+          dateModified: updated || pubDate,
+          url: canonicalURL,
+        })}
+      />
+    )
+  }
 </head>

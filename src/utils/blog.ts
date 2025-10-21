@@ -9,9 +9,12 @@ export async function getPublishedBlogs() {
   return blogs.filter((b) => !b.data.draft);
 }
 
-export async function getRelatedBlogs(currentBlogSlug: string, category: string) {
+export async function getRelatedBlogs(
+  currentBlogSlug: string,
+  category: string
+) {
   const blogs = await getPublishedBlogs();
-  return blogs.filter(
-    (b) => b.data.category === category && b.slug !== currentBlogSlug
-  );
+  return blogs
+    .filter((b) => b.data.category === category && b.slug !== currentBlogSlug)
+    .slice(0, 2);
 }

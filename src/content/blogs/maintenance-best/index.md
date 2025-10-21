@@ -1,5 +1,5 @@
 ---
-id: 5
+id: 2
 title: "Maintenance Best Practices for Industrial Heating Equipment"
 description: "learn how to Maintenance Best Practices for Industrial Heating Equipment"
 excerpt: "Regular maintenance extends the life of heating equipment and ensures optimal performance. Follow these essential maintenance guidelines."

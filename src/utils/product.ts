@@ -9,9 +9,14 @@ export async function getPublishedProducts() {
   return products.filter((b) => !b.data.draft);
 }
 
-export async function getRelatedProducts(currentProductSlug: string, category: string) {
+export async function getRelatedProducts(
+  currentProductSlug: string,
+  category: string
+) {
   const products = await getPublishedProducts();
-  return products.filter(
-    (b) => b.data.category === category && b.slug !== currentProductSlug
-  );
+  return products
+    .filter(
+      (b) => b.data.category === category && b.slug !== currentProductSlug
+    )
+    .slice(0, 2);
 }

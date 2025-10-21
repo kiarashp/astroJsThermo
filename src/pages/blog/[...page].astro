@@ -1,0 +1,149 @@
+---
+import type { GetStaticPaths, Page } from "astro";
+import { getPublishedBlogs } from "@/utils/blog";
+import Layout from "@/layouts/Layout.astro";
+import BlogCard from "@/components/sections/blogs/BlogCard.astro";
+import { ChevronLeft, ChevronRight } from "@lucide/astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const blogs = await getPublishedBlogs();
+  return paginate(blogs, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+// Canonical URLs (SEO)
+const canonicalUrl =
+  page.currentPage === 1
+    ? `${Astro.site?.origin}/blog`
+    : `${Astro.site?.origin}/blog/${page.currentPage}`;
+
+const prevURL =
+  page.url.prev === "/blog/1"
+    ? `${Astro.site?.origin}/blog`
+    : page.url.prev
+    ? `${Astro.site?.origin}${page.url.prev}`
+    : null;
+
+const nextURL = page.url.next
+  ? `${Astro.site?.origin}${page.url.next}`
+  : null;
+
+// Dynamic meta titles
+const title =
+  page.currentPage === 1
+    ? "Blog | Thermo"
+    : `Blog – Page ${page.currentPage} | Thermo`;
+
+const description =
+  page.currentPage === 1
+    ? "Explore the latest insights and tutorials from Thermo."
+    : `Browse page ${page.currentPage} of Thermo’s latest blog posts.`;
+
+// Smart pagination display
+const generatePageNumbers = () => {
+  const { currentPage, lastPage } = page;
+  const pages: (number | string)[] = [];
+
+  pages.push(1);
+  if (currentPage > 3) pages.push("...");
+  for (
+    let i = Math.max(2, currentPage - 1);
+    i <= Math.min(lastPage - 1, currentPage + 1);
+    i++
+  )
+    pages.push(i);
+  if (currentPage < lastPage - 2) pages.push("...");
+  if (lastPage > 1) pages.push(lastPage);
+
+  return pages;
+};
+const pageNumbers = generatePageNumbers();
+---
+
+<Layout
+  pageTitle={title}
+  description={description}
+  canonicalURL={canonicalUrl}
+  ogType="website"
+  prevURL={prevURL}
+  nextURL={nextURL}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold text-base-content mb-8">Blog</h1>
+
+    <!-- Blog Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      {page.data.map((blog) => <BlogCard blog={blog} />)}
+    </div>
+
+    <!-- Pagination -->
+    {
+      page.lastPage > 1 && (
+        <nav
+          aria-label="Blog pagination"
+          class="flex justify-center items-center gap-2"
+        >
+          {page.url.prev ? (
+            <a
+              rel="prev"
+              href={page.url.prev === "/blog/1" ? "/blog" : `${page.url.prev}`}
+              class="btn btn-outline gap-2"
+              aria-label="Previous page"
+            >
+              <ChevronLeft class="w-4 h-4" />
+              <span class="hidden sm:inline">Previous</span>
+            </a>
+          ) : (
+            <button class="btn btn-outline btn-disabled gap-2" disabled>
+              <ChevronLeft class="w-4 h-4" />
+              <span class="hidden sm:inline">Previous</span>
+            </button>
+          )}
+
+          <div class="join hidden sm:flex">
+            {pageNumbers.map((num) =>
+              num === "..." ? (
+                <button class="btn btn-outline join-item btn-disabled">
+                  ...
+                </button>
+              ) : (
+                <a
+                  href={num === 1 ? "/blog" : `/blog/${num}`}
+                  class:list={[
+                    "join-item btn",
+                    num === page.currentPage ? "btn-primary" : "btn-outline",
+                  ]}
+                  aria-current={num === page.currentPage ? "page" : undefined}
+                >
+                  {num}
+                </a>
+              )
+            )}
+          </div>
+
+          <div class="sm:hidden text-base-content/70">
+            Page {page.currentPage} of {page.lastPage}
+          </div>
+
+          {page.url.next ? (
+            <a
+              rel="next"
+              href={page.url.next}
+              class="btn btn-outline gap-2"
+              aria-label="Next page"
+            >
+              <span class="hidden sm:inline">Next</span>
+              <ChevronRight class="w-4 h-4" />
+            </a>
+          ) : (
+            <button class="btn btn-outline btn-disabled gap-2" disabled>
+              <span class="hidden sm:inline">Next</span>
+              <ChevronRight class="w-4 h-4" />
+            </button>
+          )}
+        </nav>
+      )
+    }
+  </div>
+</Layout>
