@@ -7,28 +7,23 @@ const contacts = [
   {
     title: "Address",
     icon: MapPin,
-    lines: [
-      "Tehran, South Lalezar St., Melanourozi Alley, Khandan Passage, 1st Floor, Unit 1"
-    ]
+    lines: ["1401 Foundry Lane, Suite 500"],
   },
   {
     title: "Phone",
     icon: Phone,
-    lines: [
-      "+98 21 33930946 – 33995987",
-      "Mobile: +98 912 8162522"
-    ]
+    lines: ["Main Line: (800) HEAT-FLOW","Tech Support: (888) BOILER-UP"],
   },
   {
     title: "Email",
     icon: Mail,
-    lines: ["thermotechnology1@yahoo.com"]
+    lines: ["info@thermo-industrial.com"],
   },
   {
     title: "Fax",
     icon: Printer,
-    lines: ["33930947"]
-  }
+    lines: ["(800) HEAT-FLOW x 299"],
+  },
 ];
 ---
 
@@ -44,23 +39,21 @@ const contacts = [
 
     <!-- Contact Cards -->
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-      {contacts.map(({ title, icon: Icon, lines }) => (
-        <div
-          class="card bg-base-100 border border-base-300 hover:border-primary transition-colors"
-        >
-          <div class="card-body items-center text-center">
-            <div
-              class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4"
-            >
-              <Icon class="w-6 h-6 text-base-100" />
+      {
+        contacts.map(({ title, icon: Icon, lines }) => (
+          <div class="card bg-base-100 border border-base-300 hover:border-primary transition-colors">
+            <div class="card-body items-center text-center">
+              <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4">
+                <Icon class="w-6 h-6 text-base-100" />
+              </div>
+              <h4 class="card-title">{title}</h4>
+              {lines.map((line) => (
+                <p class="text-sm opacity-80">{line}</p>
+              ))}
             </div>
-            <h4 class="card-title">{title}</h4>
-            {lines.map(line => (
-              <p class="text-sm opacity-80">{line}</p>
-            ))}
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
 
     <ContactForm />

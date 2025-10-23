@@ -1,21 +1,32 @@
 ---
---- 
+import { CircleCheck } from "@lucide/astro";
+---
 
-<div class="card bg-base-100 border border-base-300 shadow-sm max-w-2xl mx-auto">
+<div
+  class="card bg-base-100 border border-base-300 shadow-sm max-w-2xl mx-auto"
+>
   <div class="card-body">
     <h3 class="text-2xl font-semibold text-center mb-6">Send Us a Message</h3>
 
-    <form class="space-y-6">
+    <!-- Success Alert (hidden by default) -->
+    <div id="successAlert" class="alert alert-success hidden mb-6">
+      <CircleCheck />
+      <span>Your message has been sent successfully!</span>
+    </div>
+
+    <form id="contactForm" class="space-y-6">
       <!-- Name & Email -->
       <div class="grid md:grid-cols-2 gap-6">
         <div class="form-control">
           <label class="label">
             <span class="label-text">Name</span>
           </label>
-          <input 
+          <input
             type="text"
+            name="name"
             placeholder="Your name"
             class="input input-bordered w-full"
+            required
           />
         </div>
 
@@ -23,10 +34,12 @@
           <label class="label">
             <span class="label-text">Email</span>
           </label>
-          <input 
+          <input
             type="email"
+            name="email"
             placeholder="your@email.com"
             class="input input-bordered w-full"
+            required
           />
         </div>
       </div>
@@ -36,10 +49,12 @@
         <label class="label">
           <span class="label-text">Subject</span>
         </label>
-        <input 
+        <input
           type="text"
+          name="subject"
           placeholder="How can we help?"
           class="input input-bordered w-full"
+          required
         />
       </div>
 
@@ -49,16 +64,83 @@
           <span class="label-text">Message</span>
         </label>
         <textarea
+          name="message"
           rows="5"
           placeholder="Your message..."
           class="textarea textarea-bordered w-full resize-none"
-        ></textarea>
+          required></textarea>
       </div>
 
       <!-- Submit Button -->
       <button type="submit" class="btn btn-primary w-full">
-        Send Message
+        <span class="submit-text">Send Message</span>
+        <span class="loading loading-spinner loading-sm hidden"></span>
       </button>
     </form>
   </div>
 </div>
+<script>
+  interface FormData {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+  }
+
+  const form = document.getElementById("contactForm") as HTMLFormElement;
+  const successAlert = document.getElementById(
+    "successAlert"
+  ) as HTMLDivElement;
+  const submitButton = form?.querySelector(
+    'button[type="submit"]'
+  ) as HTMLButtonElement;
+  const submitText = submitButton?.querySelector(
+    ".submit-text"
+  ) as HTMLSpanElement;
+  const loadingSpinner = submitButton?.querySelector(
+    ".loading"
+  ) as HTMLSpanElement;
+
+  form?.addEventListener("submit", async (e: Event) => {
+    e.preventDefault();
+
+    // Show loading state
+    submitButton.disabled = true;
+    submitText.classList.add("hidden");
+    loadingSpinner.classList.remove("hidden");
+
+    // Get form data
+    const formData = new FormData(form);
+    const data: FormData = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      subject: formData.get("subject") as string,
+      message: formData.get("message") as string,
+    };
+
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Log data (for demo purposes)
+    console.log("Form submitted:", data);
+
+    // Show success message
+    successAlert.classList.remove("hidden");
+
+    // Reset form
+    form.reset();
+
+    // Reset button state
+    submitButton.disabled = false;
+    submitText.classList.remove("hidden");
+    loadingSpinner.classList.add("hidden");
+
+    // Hide success message after 5 seconds
+    setTimeout(() => {
+      successAlert.classList.add("hidden");
+    }, 5000);
+
+    // Scroll to success message
+    successAlert.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+</script>

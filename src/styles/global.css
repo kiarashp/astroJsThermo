@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-   themes: autumn --default, sunset --prefersdark;
+   themes: bumblebee --default, sunset --prefersdark;
  }
  @custom-variant dark (&:where([data-theme=sunset], [data-theme=sunset] *));
 

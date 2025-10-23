@@ -16,7 +16,7 @@ import { Sun,Moon } from "@lucide/astro";
 
 <script>
   // Load theme from localStorage on page load
-  const theme = localStorage.getItem("theme") || "autumn";
+  const theme = localStorage.getItem("theme") || "bumblebee";
   document.documentElement.setAttribute("data-theme", theme);
 
   // Set checkbox state based on saved theme
@@ -31,7 +31,7 @@ import { Sun,Moon } from "@lucide/astro";
   document.addEventListener("change", (e) => {
     const target = e.target as HTMLInputElement;
     if (target.classList.contains("isItNight")) {
-      const newTheme = target.checked ? "sunset" : "autumn";
+      const newTheme = target.checked ? "sunset" : "bumblebee";
       document.documentElement.setAttribute("data-theme", newTheme);
       localStorage.setItem("theme", newTheme);
     }
