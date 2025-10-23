@@ -5,7 +5,7 @@ description: "learn how to Ceramic Materials in Modern Manufacturing"
 excerpt: "Advanced ceramics play a vital role in modern industrial processes. Learn about different ceramic materials and their specific applications."
 thumbnail: ./blog1.jpeg
 readTime: "8 min read"
-pubDate: 2024-02-20
+pubDate: 2024-05-20
 category: "Materials"
 draft: false
 ---
